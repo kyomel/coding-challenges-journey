@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Solution Challenge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <form id="locationForm">
+      <input
+        type="text"
+        id="locationInput"
+        placeholder="Enter city or ZIP code"
+      />
+      <button type="submit">Get Weather</button>
+    </form>
+    <div id="weatherDisplay"></div>
+    <script>
+      document
+        .getElementById("locationForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const location = document.getElementById("locationInput").value;
+          fetchWeather(location);
+        });
+
+      async function fetchWeather(location) {
+        const apiKey = "YOUR_API_KEY";
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+          displayWeather(data);
+        } catch (error) {
+          console.error("Error fetching weather:", error);
+        }
+      }
+
+      function displayWeather(data) {
+        const weatherDetails = `Temperature: ${data.main.temp}°C, Humidity: ${data.main.humidity}%, Condition: ${data.weather[0].description}`;
+        document.getElementById("weatherDisplay").innerHTML = weatherDetails;
+      }
+    </script>
+  </body>
+</html>
