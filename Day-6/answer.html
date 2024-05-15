@@ -1,0 +1,19 @@
+<form id="arrayForm">
+  <input type="text" id="arrayInput" placeholder="Enter array elements separated by commas">
+  <button type="submit">Find Missing Number</button>
+</form>
+<div id="result"></div>
+
+<script>
+document.getElementById('arrayForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const array = document.getElementById('arrayInput').value.split(',').map(Number);
+  const response = await fetch('/find-missing-number', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({array})
+  });
+  const data = await response.json();
+  document.getElementById('result').textContent = 'Missing Number: ' + data.missingNumber;
+};
+</script>
