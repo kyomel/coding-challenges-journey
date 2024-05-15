@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Records</title>
+</head>
+<body>
+    <h1>Data Filter Application</h1>
+    <form id="dataForm">
+        <textarea id="dataInput" placeholder="Enter data array"></textarea>
+        <input type="text" id="criteriaInput" placeholder="Enter filter criteria">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('dataForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const data = JSON.parse(document.getElementById('dataInput').value);
+            const criteria = JSON.parse(document.getElementById('criteriaInput').value);
+            const response = await fetch('/filter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ data, criteria })
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = JSON.stringify(result);
+        };
+    </script>
+</body>
+</html>
